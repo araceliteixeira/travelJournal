@@ -21,10 +21,35 @@ class RecordViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "background")
+        backgroundImage.contentMode =  UIViewContentMode.scaleAspectFill
+        self.view.insertSubview(backgroundImage, at: 0)
+        
         if let existRecord = record {
             txtTitle.text = existRecord.title
             pickerDate.date = existRecord.date
-            
+            txtText.text = existRecord.text
+            let myImages = existRecord.photos
+            let imageWidth:CGFloat = 275
+            let imageHeight:CGFloat = 147
+            var yPosition:CGFloat = 0
+            var scrollViewContentSize:CGFloat=0;
+            for index in 0...myImages.count-1 {
+                let myImage:UIImage = myImages[index]
+                let myImageView:UIImageView = UIImageView()
+                myImageView.image = myImage
+                myImageView.contentMode = UIViewContentMode.scaleAspectFit
+                myImageView.frame.size.width = imageWidth
+                myImageView.frame.size.height = imageHeight
+                myImageView.center = self.view.center
+                myImageView.frame.origin.y = yPosition
+                scrollPhotos.addSubview(myImageView)
+                let spacer:CGFloat = 20
+                yPosition+=imageHeight + spacer
+                scrollViewContentSize+=imageHeight + spacer
+                scrollPhotos.contentSize = CGSize(width: imageWidth, height: scrollViewContentSize)
+            }
         }
     }
 
@@ -43,5 +68,7 @@ class RecordViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    @IBAction func backToPreviousScreen(unwindSegue: UIStoryboardSegue) {
+    }
 }

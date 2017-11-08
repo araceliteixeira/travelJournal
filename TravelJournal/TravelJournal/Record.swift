@@ -57,6 +57,9 @@ class Record {
     public func addPhoto(_ photo: UIImage) {
         photos.append(photo)
     }
+    public func getDate() -> String {
+        return Util.convertDateToString(date)
+    }
 }
 
 class Util {

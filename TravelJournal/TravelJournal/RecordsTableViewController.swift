@@ -9,6 +9,9 @@
 import UIKit
 
 class RecordsTableViewController: UITableViewController {
+    
+    var data: [Record] = []
+    var album: Album?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +21,10 @@ class RecordsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+
+        if let existAlbum = album {
+            data = existAlbum.records
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,23 +36,24 @@ class RecordsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return data.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "RecordTableViewCell", for: indexPath) as? RecordTableViewCell {
+            let record = data[indexPath.row]
+            cell.lblTitle.text = record.title
+            cell.lblDate.text = record.getDate()
+            return cell
+        } else {
+            fatalError("Unexpected cell type")
+        }
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -82,14 +90,17 @@ class RecordsTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if let navigation = segue.destination as? UINavigationController {
+            if let destination = navigation.topViewController as? RecordViewController {
+                if let index = tableView.indexPathForSelectedRow?.row {
+                    destination.record = data[index]
+                }
+            }
+        }
     }
-    */
 
 }

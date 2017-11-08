@@ -98,11 +98,12 @@ class AlbumsCollectionViewController: UICollectionViewController {
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if let destination = segue.destination as? AlbumViewController {
-            let selectedItems = self.collectionView?.indexPathsForSelectedItems
-            if selectedItems!.count > 0 {
-                destination.album = data[selectedItems![0].row]
+        if let navigation = segue.destination as? UINavigationController {
+            if let destination = navigation.topViewController as? AlbumViewController {
+                let selectedItems = self.collectionView?.indexPathsForSelectedItems
+                if selectedItems!.count > 0 {
+                    destination.album = data[selectedItems![0].row]
+                }
             }
         }
      }
