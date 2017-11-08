@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16038C211FB2487E0087C744 /* RecordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16038C201FB2487E0087C744 /* RecordsTableViewController.swift */; };
+		16038C231FB248A30087C744 /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16038C221FB248A30087C744 /* RecordTableViewCell.swift */; };
 		16302FE01FB10EA200F7D148 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16302FDF1FB10EA200F7D148 /* AppDelegate.swift */; };
 		16302FE21FB10EA200F7D148 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16302FE11FB10EA200F7D148 /* ViewController.swift */; };
 		16302FE51FB10EA200F7D148 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16302FE31FB10EA200F7D148 /* Main.storyboard */; };
@@ -14,6 +16,12 @@
 		16302FEA1FB10EA200F7D148 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16302FE81FB10EA200F7D148 /* LaunchScreen.storyboard */; };
 		16302FF51FB10EA300F7D148 /* TravelJournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16302FF41FB10EA300F7D148 /* TravelJournalTests.swift */; };
 		163030001FB10EA300F7D148 /* TravelJournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16302FFF1FB10EA300F7D148 /* TravelJournalUITests.swift */; };
+		1630300E1FB1F92700F7D148 /* AlbumsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1630300D1FB1F92700F7D148 /* AlbumsCollectionViewController.swift */; };
+		163030101FB1F94B00F7D148 /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1630300F1FB1F94B00F7D148 /* AlbumCollectionViewCell.swift */; };
+		163030121FB20D1F00F7D148 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163030111FB20D1F00F7D148 /* Album.swift */; };
+		163030141FB20F0700F7D148 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163030131FB20F0700F7D148 /* Record.swift */; };
+		163030181FB2139700F7D148 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163030171FB2139700F7D148 /* AlbumViewController.swift */; };
+		1630301A1FB213A400F7D148 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163030191FB213A400F7D148 /* RecordViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		16038C201FB2487E0087C744 /* RecordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsTableViewController.swift; sourceTree = "<group>"; };
+		16038C221FB248A30087C744 /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
 		16302FDC1FB10EA200F7D148 /* TravelJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16302FDF1FB10EA200F7D148 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		16302FE11FB10EA200F7D148 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +57,12 @@
 		16302FFB1FB10EA300F7D148 /* TravelJournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TravelJournalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		16302FFF1FB10EA300F7D148 /* TravelJournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalUITests.swift; sourceTree = "<group>"; };
 		163030011FB10EA300F7D148 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1630300D1FB1F92700F7D148 /* AlbumsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsCollectionViewController.swift; sourceTree = "<group>"; };
+		1630300F1FB1F94B00F7D148 /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
+		163030111FB20D1F00F7D148 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
+		163030131FB20F0700F7D148 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
+		163030171FB2139700F7D148 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
+		163030191FB213A400F7D148 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,9 +116,17 @@
 				16302FDF1FB10EA200F7D148 /* AppDelegate.swift */,
 				16302FE11FB10EA200F7D148 /* ViewController.swift */,
 				16302FE31FB10EA200F7D148 /* Main.storyboard */,
+				1630300D1FB1F92700F7D148 /* AlbumsCollectionViewController.swift */,
+				1630300F1FB1F94B00F7D148 /* AlbumCollectionViewCell.swift */,
+				163030171FB2139700F7D148 /* AlbumViewController.swift */,
+				163030191FB213A400F7D148 /* RecordViewController.swift */,
+				16038C201FB2487E0087C744 /* RecordsTableViewController.swift */,
+				16038C221FB248A30087C744 /* RecordTableViewCell.swift */,
 				16302FE61FB10EA200F7D148 /* Assets.xcassets */,
 				16302FE81FB10EA200F7D148 /* LaunchScreen.storyboard */,
 				16302FEB1FB10EA200F7D148 /* Info.plist */,
+				163030111FB20D1F00F7D148 /* Album.swift */,
+				163030131FB20F0700F7D148 /* Record.swift */,
 			);
 			path = TravelJournal;
 			sourceTree = "<group>";
@@ -259,8 +283,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				163030141FB20F0700F7D148 /* Record.swift in Sources */,
+				163030101FB1F94B00F7D148 /* AlbumCollectionViewCell.swift in Sources */,
+				1630301A1FB213A400F7D148 /* RecordViewController.swift in Sources */,
+				16038C211FB2487E0087C744 /* RecordsTableViewController.swift in Sources */,
 				16302FE21FB10EA200F7D148 /* ViewController.swift in Sources */,
+				163030181FB2139700F7D148 /* AlbumViewController.swift in Sources */,
 				16302FE01FB10EA200F7D148 /* AppDelegate.swift in Sources */,
+				1630300E1FB1F92700F7D148 /* AlbumsCollectionViewController.swift in Sources */,
+				16038C231FB248A30087C744 /* RecordTableViewCell.swift in Sources */,
+				163030121FB20D1F00F7D148 /* Album.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
