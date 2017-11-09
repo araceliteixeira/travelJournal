@@ -11,23 +11,26 @@ import UIKit
 class Album {
     public private(set) var title: String
     public private(set) var cover: UIImage?
+    public private(set) var color: UIColor
     public private(set) var description: String?
     public private(set) var startDate: Date?
     public private(set) var endDate: Date?
     public private(set) var records: [Record]
     
-    init(_ title: String, _ cover: UIImage, _ description: String, _ startDate: Date, _ endDate: Date) {
+    init(_ title: String, _ cover: UIImage, _ description: String, _ startDate: Date, _ endDate: Date, _ color: UIColor) {
         self.title = title
         self.cover = cover
         self.description = description
         self.startDate = startDate
         self.endDate = endDate
+        self.color = color
         self.records = []
     }
-    init(_ title: String, _ cover: UIImage) {
+    init(_ title: String, _ cover: UIImage, _ color: UIColor) {
         self.title = title
         self.cover = cover
         self.records = []
+        self.color = color
     }
     
     public func setTitle(_ title: String) {
@@ -35,6 +38,9 @@ class Album {
     }
     public func setCover(_ cover: UIImage) {
         self.cover = cover
+    }
+    public func setColor(_ color: UIColor) {
+        self.color = color
     }
     public func setDescrption(_ description: String) {
         self.description = description

@@ -22,6 +22,7 @@
 		163030141FB20F0700F7D148 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163030131FB20F0700F7D148 /* Record.swift */; };
 		163030181FB2139700F7D148 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163030171FB2139700F7D148 /* AlbumViewController.swift */; };
 		1630301A1FB213A400F7D148 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163030191FB213A400F7D148 /* RecordViewController.swift */; };
+		9B2DAC971FB4F9B500B96F13 /* CustomPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2DAC961FB4F9B500B96F13 /* CustomPointAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		163030131FB20F0700F7D148 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		163030171FB2139700F7D148 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		163030191FB213A400F7D148 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
+		9B2DAC961FB4F9B500B96F13 /* CustomPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPointAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 		16302FDE1FB10EA200F7D148 /* TravelJournal */ = {
 			isa = PBXGroup;
 			children = (
+				9B2DAC961FB4F9B500B96F13 /* CustomPointAnnotation.swift */,
 				16302FDF1FB10EA200F7D148 /* AppDelegate.swift */,
 				16302FE11FB10EA200F7D148 /* ViewController.swift */,
 				16302FE31FB10EA200F7D148 /* Main.storyboard */,
@@ -287,6 +290,7 @@
 				163030101FB1F94B00F7D148 /* AlbumCollectionViewCell.swift in Sources */,
 				1630301A1FB213A400F7D148 /* RecordViewController.swift in Sources */,
 				16038C211FB2487E0087C744 /* RecordsTableViewController.swift in Sources */,
+				9B2DAC971FB4F9B500B96F13 /* CustomPointAnnotation.swift in Sources */,
 				16302FE21FB10EA200F7D148 /* ViewController.swift in Sources */,
 				163030181FB2139700F7D148 /* AlbumViewController.swift in Sources */,
 				16302FE01FB10EA200F7D148 /* AppDelegate.swift in Sources */,

@@ -27,72 +27,10 @@ class AlbumsCollectionViewController: UICollectionViewController {
         backgroundImage.contentMode =  UIViewContentMode.scaleAspectFill
         //self.view.insertSubview(backgroundImage, at: 0)
         
-        loadData()
         self.collectionView?.reloadData()
     }
     
-    func loadData() {
-        let album1 = Album("Europe Trip", UIImage(named: "london1")!)
-        album1.setStartDate("2015-10-24")
-        album1.setEndDate("2015-11-01")
-        album1.setDescrption("First time overseas! Just my husband and I, a lovely trip!")
-        
-        var record = Record("London day 1", "2015-10-26")
-        record.setText("Today we visited the city. We loved the view, the Big Ben is really cool. We also saw those famous telephone cabins.")
-        record.setLatitude(51.506)
-        record.setLongitude(-0.115)
-        record.addPhoto(UIImage(named: "london1")!)
-        record.addPhoto(UIImage(named: "london2")!)
-        album1.addRecord(record)
-        record = Record("London day 2", "2015-10-27")
-        record.setText("Today we went sightseeing in those typical red London buses. Later, we went to the London Eye, where we had a great view of the city.")
-        record.setLatitude(51.506)
-        record.setLongitude(-0.115)
-        record.addPhoto(UIImage(named: "london3")!)
-        record.addPhoto(UIImage(named: "london4")!)
-        record.addPhoto(UIImage(named: "london5")!)
-        album1.addRecord(record)
-        record = Record("London day 3", "2015-10-28")
-        record.setText("Last day in the city. I took a photo of an Underground sign to keep as a souvenir.")
-        record.setLatitude(51.506)
-        record.setLongitude(-0.115)
-        record.addPhoto(UIImage(named: "london6")!)
-        album1.addRecord(record)
-        record = Record("Paris", "2015-10-29")
-        record.setText("We went sightseeing in the morning. In the afternoon, we went to the Eiffel Tower. It was amazing!")
-        record.setLatitude(48.859)
-        record.setLongitude(2.295)
-        record.addPhoto(UIImage(named: "paris1")!)
-        record.addPhoto(UIImage(named: "paris2")!)
-        record.addPhoto(UIImage(named: "paris3")!)
-        record.addPhoto(UIImage(named: "paris4")!)
-        album1.addRecord(record)
-        record = Record("Rome", "2015-10-31")
-        record.setText("Last stop in our trip. We visited many touristic places. It's really a city full of history.")
-        record.setLatitude(41.903)
-        record.setLongitude(12.496)
-        record.addPhoto(UIImage(named: "rome1")!)
-        record.addPhoto(UIImage(named: "rome2")!)
-        record.addPhoto(UIImage(named: "rome3")!)
-        record.addPhoto(UIImage(named: "rome4")!)
-        album1.addRecord(record)
-        
-        let album2 = Album("Rio de Janeiro", UIImage(named: "rio1")!)
-        album2.setStartDate("2016-03-10")
-        album2.setEndDate("2016-03-15")
-        album2.setDescrption("Our second honeymoon")
-        
-        record = Record("Beautiful city", "2016-03-15")
-        record.setText("This city has some amazing views, but we could also see some things that aren't so great. We had a great time.")
-        record.setLatitude(-22.952)
-        record.setLongitude(-43.21)
-        record.addPhoto(UIImage(named: "rio1")!)
-        record.addPhoto(UIImage(named: "rio2")!)
-        album2.addRecord(record)
-        
-        data.append(album1)
-        data.append(album2)
-    }
+    
     
      // MARK: - Navigation
      
@@ -107,6 +45,10 @@ class AlbumsCollectionViewController: UICollectionViewController {
             }
         }
      }
+    
+    @IBAction func btnBack(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
     
     // MARK: UICollectionViewDataSource
     

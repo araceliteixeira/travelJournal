@@ -7,30 +7,34 @@
 //
 
 import UIKit
+import MapKit
 
 class Record {
     public private(set) var title: String
     public private(set) var date: Date
+    public private(set) var color: UIColor
     public private(set) var text: String
     public private(set) var photos: [UIImage]
     public private(set) var latitude: Double
     public private(set) var longitude: Double
     
-    init(_ title: String, _ date: Date, _ text: String, _ photos: [UIImage], _ latitude: Double, _ longitude: Double) {
+    init(_ title: String, _ date: Date, _ text: String, _ photos: [UIImage], _ latitude: Double, _ longitude: Double, _ color: UIColor) {
         self.title = title
         self.date = date
         self.text = text
         self.photos = photos
         self.latitude = latitude
         self.longitude = longitude
+        self.color = color
     }
-    init(_ title: String, _ date: String) {
+    init(_ title: String, _ date: String, _ color: UIColor) {
         self.title = title
         self.date = Util.convertStringToDate(date)!
         text = ""
         photos = []
         latitude = 0.0
         longitude = 0.0
+        self.color = color
     }
     
     public func setTitle(_ title: String) {
@@ -59,6 +63,13 @@ class Record {
     }
     public func getDate() -> String {
         return Util.convertDateToString(date)
+    }
+    public func getAnnotation() -> CustomPointAnnotation {
+        let annotation = CustomPointAnnotation(color)
+        annotation.title = title
+        annotation.subtitle = getDate()
+        annotation.coordinate = CLLocationCoordinate2DMake(latitude, longitude)
+        return annotation
     }
 }
 

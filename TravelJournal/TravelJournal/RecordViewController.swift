@@ -27,13 +27,14 @@ class RecordViewController: UIViewController {
         self.view.insertSubview(backgroundImage, at: 0)
         
         if let existRecord = record {
-            txtTitle.text = existRecord.title
+            navigationItem.title = existRecord.title
+            txtTitle.isHidden = true
             pickerDate.date = existRecord.date
             txtText.text = existRecord.text
             let myImages = existRecord.photos
             let imageWidth:CGFloat = 275
             let imageHeight:CGFloat = 147
-            var yPosition:CGFloat = 0
+            var xPosition:CGFloat = 0
             var scrollViewContentSize:CGFloat=0;
             for index in 0...myImages.count-1 {
                 let myImage:UIImage = myImages[index]
@@ -42,14 +43,17 @@ class RecordViewController: UIViewController {
                 myImageView.contentMode = UIViewContentMode.scaleAspectFit
                 myImageView.frame.size.width = imageWidth
                 myImageView.frame.size.height = imageHeight
-                myImageView.center = self.view.center
-                myImageView.frame.origin.y = yPosition
+                //myImageView.center = self.view.center
+                myImageView.frame.origin.x = xPosition
                 scrollPhotos.addSubview(myImageView)
                 let spacer:CGFloat = 20
-                yPosition+=imageHeight + spacer
-                scrollViewContentSize+=imageHeight + spacer
-                scrollPhotos.contentSize = CGSize(width: imageWidth, height: scrollViewContentSize)
+                xPosition+=imageWidth + spacer
+                scrollViewContentSize+=imageWidth + spacer
+                scrollPhotos.contentSize = CGSize(width: scrollViewContentSize, height: imageHeight)
             }
+            scrollPhotos.showsVerticalScrollIndicator = false
+            scrollPhotos.showsHorizontalScrollIndicator = true
+            scrollPhotos.alwaysBounceVertical = false
         }
     }
 
@@ -69,6 +73,7 @@ class RecordViewController: UIViewController {
     }
     */
     
-    @IBAction func backToPreviousScreen(unwindSegue: UIStoryboardSegue) {
+    @IBAction func btnBack(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
 }

@@ -10,7 +10,6 @@ import UIKit
 
 class AlbumViewController: UIViewController {
 
-    @IBOutlet weak var txtTitle: UITextField!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var txtDescription: UITextView!
     @IBOutlet weak var pickerStartDate: UIDatePicker!
@@ -31,7 +30,7 @@ class AlbumViewController: UIViewController {
         btnVIewRecords.titleEdgeInsets = UIEdgeInsets(top: 0,left: 10,bottom: 0,right: 0)
         
         if let existAlbum = album {
-            txtTitle.text = existAlbum.title
+            navigationItem.title = existAlbum.title
             imgCover.image = existAlbum.cover
             txtDescription.text = existAlbum.description
             pickerStartDate.date = existAlbum.startDate ?? Date()
@@ -48,5 +47,9 @@ class AlbumViewController: UIViewController {
                 destination.album = album
             }
         }
+    }
+    
+    @IBAction func btnBack(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
 }

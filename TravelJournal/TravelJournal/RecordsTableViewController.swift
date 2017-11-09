@@ -103,4 +103,7 @@ class RecordsTableViewController: UITableViewController {
         }
     }
 
+    @IBAction func btnBack(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
 }
