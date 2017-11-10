@@ -15,7 +15,7 @@ class AlbumViewController: UIViewController, HSBColorPickerDelegate {
     @IBOutlet weak var pickerStartDate: UIDatePicker!
     @IBOutlet weak var pickerEndDate: UIDatePicker!
     @IBOutlet weak var pickerColor: HSBColorPicker!
-    @IBOutlet weak var viewColor: UIView!
+    @IBOutlet weak var btnColor: UIButton!
     
     var album: Album?
     
@@ -28,7 +28,9 @@ class AlbumViewController: UIViewController, HSBColorPickerDelegate {
         backgroundImage.contentMode =  UIViewContentMode.scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
         
-        viewColor.layer.cornerRadius = viewColor.bounds.size.width/2
+        pickerColor.delegate = self
+        pickerColor.isHidden = true
+        btnColor.layer.cornerRadius = btnColor.bounds.size.width/2
         
         if let existAlbum = album {
             navigationItem.title = existAlbum.title
@@ -36,11 +38,16 @@ class AlbumViewController: UIViewController, HSBColorPickerDelegate {
             txtDescription.text = existAlbum.description
             pickerStartDate.date = existAlbum.startDate ?? Date()
             pickerEndDate.date = existAlbum.endDate ?? Date()
+            btnColor.backgroundColor = existAlbum.color
         }
     }
     
     func HSBColorColorPickerTouched(sender: HSBColorPicker, color: UIColor, point: CGPoint, state: UIGestureRecognizerState) {
-        viewColor.tintColor = color
+        btnColor.backgroundColor = color
+    }
+    
+    @IBAction func btnColor(_ sender: UIButton) {
+        pickerColor.isHidden = !pickerColor.isHidden
     }
     
     // MARK: - Navigation
@@ -50,6 +57,8 @@ class AlbumViewController: UIViewController, HSBColorPickerDelegate {
         if let navigation = segue.destination as? UINavigationController {
             if let destination = navigation.topViewController as? RecordsTableViewController {
                 destination.album = album
+            } else if let destination = navigation.topViewController as? AlbumMapViewController {
+                destination.album = album
             }
         }
     }
@@ -57,4 +66,28 @@ class AlbumViewController: UIViewController, HSBColorPickerDelegate {
     @IBAction func btnBack(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func btnSave(_ sender: UIBarButtonItem) {
+        let title = navigationItem.title
+        let cover = imgCover.image!
+        let description = txtDescription.text!
+        let startDate = pickerStartDate.date
+        let endDate = pickerEndDate.date
+        let color = btnColor.backgroundColor!
+        
+        if !(title?.isEmpty)! {
+            if album == nil {
+                album = Album(title!, cover, description, startDate, endDate, color)
+            } else {
+                album?.setTitle(title!)
+                album?.setCover(cover)
+                album?.setDescrption(description)
+                album?.setStartDate(startDate)
+                album?.setEndDate(endDate)
+                album?.setColor(color)
+            }
+        }
+        pickerColor.isHidden = true
+    }
+    
 }

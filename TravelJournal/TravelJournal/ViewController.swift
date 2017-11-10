@@ -32,8 +32,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
         btnWrite.titleEdgeInsets = UIEdgeInsets(top: 0,left: 10,bottom: 0,right: 0)
         
         loadData()
-        
-        mapObj.showAnnotations(annotations, animated: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        drawAnnotations()
     }
 
     func loadData() {
@@ -49,10 +51,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         record.addPhoto(UIImage(named: "london1")!)
         record.addPhoto(UIImage(named: "london2")!)
         album1.addRecord(record)
-        
-        annotations.append(record.getAnnotation())
-        mapObj.addAnnotation(record.getAnnotation())
-        
         record = Record("London day 2", "2015-10-27", UIColor.blue)
         record.setText("Today we went sightseeing in those typical red London buses. Later, we went to the London Eye, where we had a great view of the city.")
         record.setLatitude(51.506)
@@ -61,20 +59,12 @@ class ViewController: UIViewController, MKMapViewDelegate {
         record.addPhoto(UIImage(named: "london4")!)
         record.addPhoto(UIImage(named: "london5")!)
         album1.addRecord(record)
-        
-        annotations.append(record.getAnnotation())
-        mapObj.addAnnotation(record.getAnnotation())
-        
         record = Record("London day 3", "2015-10-28", UIColor.blue)
         record.setText("Last day in the city. I took a photo of an Underground sign to keep as a souvenir.")
         record.setLatitude(51.506)
         record.setLongitude(-0.115)
         record.addPhoto(UIImage(named: "london6")!)
         album1.addRecord(record)
-        
-        annotations.append(record.getAnnotation())
-        mapObj.addAnnotation(record.getAnnotation())
-        
         record = Record("Paris", "2015-10-29", UIColor.blue)
         record.setText("We went sightseeing in the morning. In the afternoon, we went to the Eiffel Tower. It was amazing!")
         record.setLatitude(48.859)
@@ -84,10 +74,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         record.addPhoto(UIImage(named: "paris3")!)
         record.addPhoto(UIImage(named: "paris4")!)
         album1.addRecord(record)
-        
-        annotations.append(record.getAnnotation())
-        mapObj.addAnnotation(record.getAnnotation())
-        
         record = Record("Rome", "2015-10-31", UIColor.blue)
         record.setText("Last stop in our trip. We visited many touristic places. It's really a city full of history.")
         record.setLatitude(41.903)
@@ -97,10 +83,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         record.addPhoto(UIImage(named: "rome3")!)
         record.addPhoto(UIImage(named: "rome4")!)
         album1.addRecord(record)
-        
-        annotations.append(record.getAnnotation())
-        mapObj.addAnnotation(record.getAnnotation())
-        
         
         let album2 = Album("Rio de Janeiro", UIImage(named: "rio1")!, UIColor.green)
         album2.setStartDate("2016-03-10")
@@ -115,11 +97,20 @@ class ViewController: UIViewController, MKMapViewDelegate {
         record.addPhoto(UIImage(named: "rio2")!)
         album2.addRecord(record)
         
-        annotations.append(record.getAnnotation())
-        mapObj.addAnnotation(record.getAnnotation())
-        
         data.append(album1)
         data.append(album2)
+    }
+    
+    func drawAnnotations() {
+        mapObj.removeAnnotations(annotations)
+        annotations = []
+        for album in data {
+            for a in album.getAnnotations() {
+                annotations.append(a)
+                mapObj.addAnnotation(a)
+            }
+        }
+        mapObj.showAnnotations(annotations, animated: true)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

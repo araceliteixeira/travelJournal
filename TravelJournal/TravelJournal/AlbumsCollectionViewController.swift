@@ -25,9 +25,7 @@ class AlbumsCollectionViewController: UICollectionViewController {
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "background")
         backgroundImage.contentMode =  UIViewContentMode.scaleAspectFill
-        //self.view.insertSubview(backgroundImage, at: 0)
-        
-        self.collectionView?.reloadData()
+        self.collectionView?.backgroundView = backgroundImage
     }
     
     

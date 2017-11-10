@@ -46,6 +46,9 @@ class Record {
     public func setDate(_ date: String) {
         self.date = Util.convertStringToDate(date)!
     }
+    public func setColor(_ color: UIColor) {
+        self.color = color
+    }
     public func setText(_ text: String) {
         self.text = text
     }

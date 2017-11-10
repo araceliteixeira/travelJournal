@@ -21,7 +21,12 @@ class RecordsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "background")
+        backgroundImage.contentMode =  UIViewContentMode.scaleAspectFill
+        tableView.backgroundView = backgroundImage
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
         if let existAlbum = album {
             data = existAlbum.records
         }
@@ -53,6 +58,10 @@ class RecordsTableViewController: UITableViewController {
         } else {
             fatalError("Unexpected cell type")
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor(white: 1, alpha: 0.5)
     }
 
     /*

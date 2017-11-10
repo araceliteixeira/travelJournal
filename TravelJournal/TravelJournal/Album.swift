@@ -41,6 +41,9 @@ class Album {
     }
     public func setColor(_ color: UIColor) {
         self.color = color
+        for r in records {
+            r.setColor(color)
+        }
     }
     public func setDescrption(_ description: String) {
         self.description = description
@@ -62,5 +65,12 @@ class Album {
     }
     public func addRecord(_ record: Record) {
         records.append(record)
+    }
+    public func getAnnotations() -> [CustomPointAnnotation] {
+        var annotations: [CustomPointAnnotation] = []
+        for r in records {
+            annotations.append(r.getAnnotation())
+        }
+        return annotations
     }
 }
