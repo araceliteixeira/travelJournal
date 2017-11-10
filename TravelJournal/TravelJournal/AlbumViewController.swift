@@ -8,13 +8,14 @@
 
 import UIKit
 
-class AlbumViewController: UIViewController {
+class AlbumViewController: UIViewController, HSBColorPickerDelegate {
 
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var txtDescription: UITextView!
     @IBOutlet weak var pickerStartDate: UIDatePicker!
     @IBOutlet weak var pickerEndDate: UIDatePicker!
-    @IBOutlet weak var btnVIewRecords: UIButton!
+    @IBOutlet weak var pickerColor: HSBColorPicker!
+    @IBOutlet weak var viewColor: UIView!
     
     var album: Album?
     
@@ -27,7 +28,7 @@ class AlbumViewController: UIViewController {
         backgroundImage.contentMode =  UIViewContentMode.scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
         
-        btnVIewRecords.titleEdgeInsets = UIEdgeInsets(top: 0,left: 10,bottom: 0,right: 0)
+        viewColor.layer.cornerRadius = viewColor.bounds.size.width/2
         
         if let existAlbum = album {
             navigationItem.title = existAlbum.title
@@ -36,6 +37,10 @@ class AlbumViewController: UIViewController {
             pickerStartDate.date = existAlbum.startDate ?? Date()
             pickerEndDate.date = existAlbum.endDate ?? Date()
         }
+    }
+    
+    func HSBColorColorPickerTouched(sender: HSBColorPicker, color: UIColor, point: CGPoint, state: UIGestureRecognizerState) {
+        viewColor.tintColor = color
     }
     
     // MARK: - Navigation

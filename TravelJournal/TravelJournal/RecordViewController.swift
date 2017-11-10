@@ -32,8 +32,8 @@ class RecordViewController: UIViewController {
             pickerDate.date = existRecord.date
             txtText.text = existRecord.text
             let myImages = existRecord.photos
-            let imageWidth:CGFloat = 275
-            let imageHeight:CGFloat = 147
+            let imageWidth:CGFloat = 200
+            let imageHeight:CGFloat = 120
             var xPosition:CGFloat = 0
             var scrollViewContentSize:CGFloat=0;
             for index in 0...myImages.count-1 {
