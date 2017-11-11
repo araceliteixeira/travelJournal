@@ -8,8 +8,9 @@
 
 import UIKit
 
-class AlbumViewController: UIViewController, HSBColorPickerDelegate {
+class AlbumViewController: UIViewController, UITextFieldDelegate, HSBColorPickerDelegate {
 
+    @IBOutlet weak var txtTitle: UITextField!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var txtDescription: UITextView!
     @IBOutlet weak var pickerStartDate: UIDatePicker!
@@ -28,18 +29,29 @@ class AlbumViewController: UIViewController, HSBColorPickerDelegate {
         backgroundImage.contentMode =  UIViewContentMode.scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
         
+        txtTitle.delegate = self
         pickerColor.delegate = self
         pickerColor.isHidden = true
         btnColor.layer.cornerRadius = btnColor.bounds.size.width/2
         
         if let existAlbum = album {
             navigationItem.title = existAlbum.title
+            txtTitle.text = existAlbum.title
             imgCover.image = existAlbum.cover
             txtDescription.text = existAlbum.description
             pickerStartDate.date = existAlbum.startDate ?? Date()
             pickerEndDate.date = existAlbum.endDate ?? Date()
             btnColor.backgroundColor = existAlbum.color
         }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        navigationItem.title = textField.text
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textFieldDidEndEditing(textField)
+        return true
     }
     
     func HSBColorColorPickerTouched(sender: HSBColorPicker, color: UIColor, point: CGPoint, state: UIGestureRecognizerState) {
@@ -57,8 +69,9 @@ class AlbumViewController: UIViewController, HSBColorPickerDelegate {
         if let navigation = segue.destination as? UINavigationController {
             if let destination = navigation.topViewController as? RecordsTableViewController {
                 destination.album = album
-            } else if let destination = navigation.topViewController as? AlbumMapViewController {
-                destination.album = album
+            } else if let destination = navigation.topViewController as? ViewMapViewController {
+                destination.viewTitle = album!.title
+                destination.annotations = album!.getAnnotations()
             }
         }
     }
@@ -68,6 +81,9 @@ class AlbumViewController: UIViewController, HSBColorPickerDelegate {
     }
     
     @IBAction func btnSave(_ sender: UIBarButtonItem) {
+        txtTitle.resignFirstResponder()
+        txtDescription.resignFirstResponder()
+        
         let title = navigationItem.title
         let cover = imgCover.image!
         let description = txtDescription.text!

@@ -28,7 +28,9 @@ class AlbumsCollectionViewController: UICollectionViewController {
         self.collectionView?.backgroundView = backgroundImage
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        collectionView?.reloadData()
+    }
     
      // MARK: - Navigation
      

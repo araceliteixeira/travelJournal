@@ -24,7 +24,7 @@
 		1630301A1FB213A400F7D148 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163030191FB213A400F7D148 /* RecordViewController.swift */; };
 		16315F721FB6553B001DDBB7 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16315F711FB6553B001DDBB7 /* ColorPicker.swift */; };
 		9B2DAC971FB4F9B500B96F13 /* CustomPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2DAC961FB4F9B500B96F13 /* CustomPointAnnotation.swift */; };
-		9B8F82971FB64AC1009129CE /* AlbumMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8F82961FB64AC1009129CE /* AlbumMapViewController.swift */; };
+		9B8F82971FB64AC1009129CE /* ViewMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8F82961FB64AC1009129CE /* ViewMapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +68,7 @@
 		163030191FB213A400F7D148 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		16315F711FB6553B001DDBB7 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		9B2DAC961FB4F9B500B96F13 /* CustomPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPointAnnotation.swift; sourceTree = "<group>"; };
-		9B8F82961FB64AC1009129CE /* AlbumMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumMapViewController.swift; sourceTree = "<group>"; };
+		9B8F82961FB64AC1009129CE /* ViewMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,7 +129,7 @@
 				163030191FB213A400F7D148 /* RecordViewController.swift */,
 				16038C201FB2487E0087C744 /* RecordsTableViewController.swift */,
 				16038C221FB248A30087C744 /* RecordTableViewCell.swift */,
-				9B8F82961FB64AC1009129CE /* AlbumMapViewController.swift */,
+				9B8F82961FB64AC1009129CE /* ViewMapViewController.swift */,
 				16302FE61FB10EA200F7D148 /* Assets.xcassets */,
 				16302FE81FB10EA200F7D148 /* LaunchScreen.storyboard */,
 				16302FEB1FB10EA200F7D148 /* Info.plist */,
@@ -296,7 +296,7 @@
 				163030101FB1F94B00F7D148 /* AlbumCollectionViewCell.swift in Sources */,
 				1630301A1FB213A400F7D148 /* RecordViewController.swift in Sources */,
 				16038C211FB2487E0087C744 /* RecordsTableViewController.swift in Sources */,
-				9B8F82971FB64AC1009129CE /* AlbumMapViewController.swift in Sources */,
+				9B8F82971FB64AC1009129CE /* ViewMapViewController.swift in Sources */,
 				9B2DAC971FB4F9B500B96F13 /* CustomPointAnnotation.swift in Sources */,
 				16315F721FB6553B001DDBB7 /* ColorPicker.swift in Sources */,
 				16302FE21FB10EA200F7D148 /* ViewController.swift in Sources */,

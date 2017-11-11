@@ -9,24 +9,26 @@
 import UIKit
 import MapKit
 
-class AlbumMapViewController: UIViewController, MKMapViewDelegate {
+class ViewMapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapObj: MKMapView!
     
-    var album: Album?
+    var viewTitle: String?
     var annotations: [CustomPointAnnotation] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        if let existAlbum = album {
-            navigationItem.title = existAlbum.title
-            
-            for a in existAlbum.getAnnotations() {
-                annotations.append(a)
-                mapObj.addAnnotation(a)
-            }
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "background")
+        backgroundImage.contentMode =  UIViewContentMode.scaleAspectFill
+        view.insertSubview(backgroundImage, at: 0)
+        
+        mapObj.delegate = self
+        
+        if let existTitle = viewTitle {
+            navigationItem.title = existTitle
             mapObj.showAnnotations(annotations, animated: true)
         }
     }
@@ -40,7 +42,7 @@ class AlbumMapViewController: UIViewController, MKMapViewDelegate {
         if annotation is MKUserLocation {
             return nil
         }
-        
+
         let identifier = "marker"
         var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
             as? MKMarkerAnnotationView

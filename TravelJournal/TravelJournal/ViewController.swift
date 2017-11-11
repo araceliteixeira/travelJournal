@@ -16,7 +16,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var btnWrite: UIButton!
     
     var data: [Album] = []
-    var annotations: [MKPointAnnotation] = []
+    var annotations: [CustomPointAnnotation] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "background")
         backgroundImage.contentMode =  UIViewContentMode.scaleAspectFill
-        self.view.insertSubview(backgroundImage, at: 0)
+        view.insertSubview(backgroundImage, at: 0)
         
         mapObj.delegate = self
         
@@ -89,7 +89,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         album2.setEndDate("2016-03-15")
         album2.setDescrption("Our second honeymoon")
         
-        record = Record("Beautiful city", "2016-03-15", UIColor.green)
+        record = Record("Beautiful view", "2016-03-15", UIColor.green)
         record.setText("This city has some amazing views, but we could also see some things that aren't so great. We had a great time.")
         record.setLatitude(-22.952)
         record.setLongitude(-43.21)
@@ -105,10 +105,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         mapObj.removeAnnotations(annotations)
         annotations = []
         for album in data {
-            for a in album.getAnnotations() {
-                annotations.append(a)
-                mapObj.addAnnotation(a)
-            }
+            annotations.append(contentsOf: album.getAnnotations())
         }
         mapObj.showAnnotations(annotations, animated: true)
     }

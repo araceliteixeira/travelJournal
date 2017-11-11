@@ -32,9 +32,8 @@ class RecordsTableViewController: UITableViewController {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -107,6 +106,7 @@ class RecordsTableViewController: UITableViewController {
             if let destination = navigation.topViewController as? RecordViewController {
                 if let index = tableView.indexPathForSelectedRow?.row {
                     destination.record = data[index]
+                    destination.color = data[index].color
                 }
             }
         }
