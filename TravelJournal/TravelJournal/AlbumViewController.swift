@@ -13,8 +13,8 @@ class AlbumViewController: UIViewController, UITextFieldDelegate, UITextViewDele
     @IBOutlet weak var txtTitle: UITextField!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var txtDescription: UITextView!
-    @IBOutlet weak var pickerStartDate: UIDatePicker!
-    @IBOutlet weak var pickerEndDate: UIDatePicker!
+    @IBOutlet weak var txtStartDate: UITextField!
+    @IBOutlet weak var txtEndDate: UITextField!
     @IBOutlet weak var pickerColor: HSBColorPicker!
     @IBOutlet weak var btnColor: UIButton!
     @IBOutlet weak var btnSave: UIBarButtonItem!
@@ -22,6 +22,7 @@ class AlbumViewController: UIViewController, UITextFieldDelegate, UITextViewDele
     @IBOutlet weak var btnViewRecords: UIBarButtonItem!
     
     var album: Album?
+    var pickerDate: UIDatePicker!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +35,15 @@ class AlbumViewController: UIViewController, UITextFieldDelegate, UITextViewDele
         
         txtTitle.delegate = self
         txtDescription.delegate = self
+        txtStartDate.delegate = self
+        txtEndDate.delegate = self
         pickerColor.delegate = self
         pickerColor.isHidden = true
         btnColor.layer.cornerRadius = btnColor.bounds.size.width/2
         btnColor.backgroundColor = .black
-        pickerStartDate.addTarget(self, action: #selector(handleDatePicker(sender:)), for: UIControlEvents.valueChanged)
-        pickerEndDate.addTarget(self, action: #selector(handleDatePicker(sender:)), for: UIControlEvents.valueChanged)
+        //pickerStartDate.addTarget(self, action: #selector(handleDatePicker(sender:)), for: UIControlEvents.valueChanged)
+        //pickerEndDate.addTarget(self, action: #selector(handleDatePicker(sender:)), for: UIControlEvents.valueChanged)
+        
         
         txtDescription.layer.borderColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1).cgColor
         txtDescription.layer.borderWidth = 0.5
@@ -50,10 +54,14 @@ class AlbumViewController: UIViewController, UITextFieldDelegate, UITextViewDele
             txtTitle.text = existAlbum.title
             imgCover.image = existAlbum.cover
             txtDescription.text = existAlbum.description
-            pickerStartDate.date = existAlbum.startDate ?? Date()
-            pickerEndDate.date = existAlbum.endDate ?? Date()
+            txtStartDate.text = existAlbum.getStartDate()
+            txtEndDate.text = existAlbum.getEndDate()
+            //pickerStartDate.date = existAlbum.startDate ?? Date()
+            //pickerEndDate.date = existAlbum.endDate ?? Date()
             btnColor.backgroundColor = existAlbum.color
         } else {
+            txtStartDate.text = Util.convertDateToString(Date())
+            txtEndDate.text = Util.convertDateToString(Date())
             btnViewMap.isEnabled = false
             btnViewRecords.isEnabled = false
         }
@@ -66,25 +74,84 @@ class AlbumViewController: UIViewController, UITextFieldDelegate, UITextViewDele
         }
     }
     
-    @objc func handleDatePicker(sender: UIDatePicker) {
-        if sender.date > Date() {
+    @objc func handleStartDate(sender: UIDatePicker) {
+        if pickerDate.date > Date() {
             sender.date = Date()
         }
-        if sender === pickerStartDate {
-            if pickerEndDate.date < pickerStartDate.date {
-                pickerStartDate.date = pickerEndDate.date
-            }
-        } else {
-            if pickerEndDate.date < pickerStartDate.date {
-                pickerEndDate.date = pickerStartDate.date
+        if let endDate = Util.convertStringToDate(txtEndDate.text!) {
+            if pickerDate.date > endDate {
+                pickerDate.date = endDate
             }
         }
+    }
+    @objc func handleEndDate(sender: UIDatePicker) {
+        if pickerDate.date > Date() {
+            sender.date = Date()
+        }
+        if let startDate = Util.convertStringToDate(txtStartDate.text!) {
+            if pickerDate.date < startDate {
+                pickerDate.date = startDate
+            }
+        }
+    }
+    
+    func pickUpDate(_ textField : UITextField){
+        pickerDate = UIDatePicker(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
+        pickerDate.backgroundColor = UIColor.white
+        pickerDate.datePickerMode = UIDatePickerMode.date
+        pickerDate.date = Util.convertStringToDate(textField.text!)!
+        if textField === txtStartDate {
+            pickerDate.addTarget(self, action: #selector(handleStartDate(sender:)), for: UIControlEvents.valueChanged)
+        } else {
+            pickerDate.addTarget(self, action: #selector(handleEndDate(sender:)), for: UIControlEvents.valueChanged)
+        }
+        textField.inputView = self.pickerDate
+        
+        let toolBar = UIToolbar()
+        toolBar.barStyle = .default
+        toolBar.isTranslucent = true
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneClickStartDate))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.cancelClickStartDate))
+        if textField === txtEndDate {
+            doneButton.action = #selector(self.doneClickEndDate)
+            cancelButton.action = #selector(self.cancelClickEndDate)
+        }
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        textField.inputAccessoryView = toolBar
+    }
+    
+    @objc func doneClickStartDate() {
+        txtStartDate.text = Util.convertDateToString(pickerDate.date)
+        txtStartDate.resignFirstResponder()
         updateSaveButtonState()
+    }
+    @objc func doneClickEndDate() {
+        txtEndDate.text = Util.convertDateToString(pickerDate.date)
+        txtEndDate.resignFirstResponder()
+        updateSaveButtonState()
+    }
+    @objc func cancelClickStartDate() {
+        txtStartDate.resignFirstResponder()
+    }
+    @objc func cancelClickEndDate() {
+        txtEndDate.resignFirstResponder()
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField === txtStartDate || textField === txtEndDate {
+            self.pickUpDate(textField)
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField === txtTitle {
+            navigationItem.title = textField.text
+        }
         updateSaveButtonState()
-        navigationItem.title = textField.text
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -159,8 +226,8 @@ class AlbumViewController: UIViewController, UITextFieldDelegate, UITextViewDele
                 let title = navigationItem.title
                 let cover = imgCover.image!
                 let description = txtDescription.text!
-                let startDate = pickerStartDate.date
-                let endDate = pickerEndDate.date
+                let startDate = txtStartDate.text! //pickerStartDate.date
+                let endDate = txtEndDate.text! //pickerEndDate.date
                 let color = btnColor.backgroundColor!
                 
                 if !(title?.isEmpty)! {

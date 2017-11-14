@@ -12,7 +12,7 @@ import MapKit
 class RecordViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIPickerViewDelegate, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var txtTitle: UITextField!
-    @IBOutlet weak var pickerDate: UIDatePicker!
+    @IBOutlet weak var txtDate: UITextField!
     @IBOutlet weak var txtText: UITextView!
     @IBOutlet weak var scrollPhotos: UIScrollView!
     @IBOutlet weak var btnSave: UIBarButtonItem!
@@ -20,6 +20,7 @@ class RecordViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     var record: Record?
     var color: UIColor?
     var previousCoordinate: CLLocationCoordinate2D?
+    var pickerDate: UIDatePicker!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +33,7 @@ class RecordViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         
         txtTitle.delegate = self
         txtText.delegate = self
-        pickerDate.addTarget(self, action: #selector(handleDatePicker(sender:)), for: UIControlEvents.valueChanged)
+        txtDate.delegate = self
         
         txtText.layer.borderColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1).cgColor
         txtText.layer.borderWidth = 0.5
@@ -41,10 +42,12 @@ class RecordViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         if let existRecord = record {
             navigationItem.title = existRecord.title
             txtTitle.text = existRecord.title
-            pickerDate.date = existRecord.date
+            txtDate.text = Util.convertDateToString(existRecord.date)
             txtText.text = existRecord.text
             color = existRecord.color
             loadPhotos(existRecord.photos)
+        } else {
+            txtDate.text = Util.convertDateToString(Date())
         }
         btnSave.isEnabled = false
     }
@@ -56,29 +59,26 @@ class RecordViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     }
     
     private func loadPhotos(_ images: [UIImage]) {
-        var xPosition: CGFloat = 0
         var scrollViewContentSize: CGFloat = 0
         if images.count > 0 {
             for index in 0...images.count-1 {
-                let viewPhoto: UIImageView = UIImageView()
-                viewPhoto.tag = index
-                viewPhoto.image = images[index]
-                viewPhoto.contentMode = UIViewContentMode.scaleAspectFit
-                viewPhoto.frame.size.width = 200
-                viewPhoto.frame.size.height = 120
-                viewPhoto.frame.origin.x = xPosition
-                scrollPhotos.addSubview(viewPhoto)
+                let imageView: UIImageView = UIImageView(image: images[index])
+                imageView.tag = index
+                imageView.contentMode = UIViewContentMode.scaleAspectFit
+                imageView.frame.size.width = 200
+                imageView.frame.size.height = 120
+                imageView.frame.origin.x = scrollViewContentSize
+                scrollPhotos.addSubview(imageView)
                 let spacer:CGFloat = 20
-                xPosition += 200 + spacer
                 scrollViewContentSize += 200 + spacer
                 
                 let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(_:)))
-                longPressGestureRecognizer.delegate = self
                 let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.fullscreenImage(_:)))
+                imageView.isUserInteractionEnabled = true
+                longPressGestureRecognizer.delegate = self
                 tapGestureRecognizer.delegate = self
-                viewPhoto.isUserInteractionEnabled = true
-                viewPhoto.addGestureRecognizer(longPressGestureRecognizer)
-                viewPhoto.addGestureRecognizer(tapGestureRecognizer)
+                imageView.addGestureRecognizer(longPressGestureRecognizer)
+                imageView.addGestureRecognizer(tapGestureRecognizer)
             }
         }
         scrollPhotos.contentSize = CGSize(width: scrollViewContentSize, height: 120)
@@ -91,7 +91,36 @@ class RecordViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         if sender.date > Date() {
             sender.date = Date()
         }
+    }
+    
+    func pickUpDate(_ textField : UITextField){
+        pickerDate = UIDatePicker(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
+        pickerDate.backgroundColor = UIColor.white
+        pickerDate.datePickerMode = UIDatePickerMode.date
+        pickerDate.date = Util.convertStringToDate(textField.text!)!
+        pickerDate.addTarget(self, action: #selector(handleDatePicker(sender:)), for: UIControlEvents.valueChanged)
+        textField.inputView = self.pickerDate
+        
+        let toolBar = UIToolbar()
+        toolBar.barStyle = .default
+        toolBar.isTranslucent = true
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneClick))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.cancelClick))
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        textField.inputAccessoryView = toolBar
+    }
+    
+    @objc func doneClick() {
+        txtDate.text = Util.convertDateToString(pickerDate.date)
+        txtDate.resignFirstResponder()
         updateSaveButtonState()
+    }
+    @objc func cancelClick() {
+        txtDate.resignFirstResponder()
     }
     
     @objc func handleLongPress(_ gestureRecognizer: UIGestureRecognizer) {
@@ -118,10 +147,16 @@ class RecordViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     @objc func fullscreenImage(_ sender: UITapGestureRecognizer) {
         let imageView = sender.view as! UIImageView
         let newImageView = UIImageView(image: imageView.image)
-        newImageView.frame = UIScreen.main.bounds
+        newImageView.frame.size = UIScreen.main.bounds.size
         newImageView.backgroundColor = .black
         newImageView.contentMode = .scaleAspectFit
         newImageView.isUserInteractionEnabled = true
+        
+        print("fullsize aspect ratio:")
+        let w = newImageView.image!.size.width
+        let h = newImageView.image!.size.height
+        print("\(w)/\(h) = \(w/h)")
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
         newImageView.addGestureRecognizer(tap)
         self.view.addSubview(newImageView)
@@ -136,10 +171,18 @@ class RecordViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()
     }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField === txtDate {
+            self.pickUpDate(textField)
+        }
+    }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField === txtTitle {
+            navigationItem.title = textField.text
+        }
         updateSaveButtonState()
-        navigationItem.title = textField.text
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -180,11 +223,13 @@ class RecordViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         if let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             if record == nil {
                 let title = txtTitle.text!
-                let date = pickerDate.date
+                let date = Util.convertStringToDate(txtDate.text!)!
                 let text = txtText.text!
                 record = Record(title, date, text, [], color!)
             }
             record!.addPhoto(selectedImage)
+            print("original aspect ratio:")
+            print("\(selectedImage.size.width)/\(selectedImage.size.height) = \(selectedImage.size.width/selectedImage.size.height)")
             loadPhotos(record!.photos)
             dismiss(animated: true, completion: nil)
         } else {
@@ -200,7 +245,7 @@ class RecordViewController: UIViewController, UITextFieldDelegate, UITextViewDel
             if let destination = navigation.topViewController as? ViewMapViewController {
                if record == nil {
                     let title = txtTitle.text!
-                    let date = pickerDate.date
+                    let date = Util.convertStringToDate(txtDate.text!)!
                     let text = txtText.text!
                     record = Record(title, date, text, [], color!)
                 }
@@ -214,7 +259,7 @@ class RecordViewController: UIViewController, UITextFieldDelegate, UITextViewDel
                 txtText.resignFirstResponder()
                 
                 let title = txtTitle.text!
-                let date = pickerDate.date
+                let date = Util.convertStringToDate(txtDate.text!)!
                 let text = txtText.text!
                 
                 if !title.isEmpty {

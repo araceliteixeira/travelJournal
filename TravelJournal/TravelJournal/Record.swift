@@ -38,9 +38,9 @@ class Record: Equatable {
         self.photos = photos
         self.color = color
     }
-    init(_ title: String, _ date: String, _ color: UIColor) {
+    init(_ title: String, _ date: String, _ color: UIColor, _ format: String) {
         self.title = title
-        self.date = Util.convertStringToDate(date)!
+        self.date = Util.convertStringToDate(date, format)!
         text = ""
         photos = []
         self.color = color
@@ -54,6 +54,9 @@ class Record: Equatable {
     }
     public func setDate(_ date: String) {
         self.date = Util.convertStringToDate(date)!
+    }
+    public func setDate(_ date: String, _ format: String) {
+        self.date = Util.convertStringToDate(date, format)!
     }
     public func setColor(_ color: UIColor) {
         self.color = color
@@ -89,18 +92,32 @@ class Record: Equatable {
 
 class Util {
     static let dateFormatter = DateFormatter()
-    static let dateFormat = "yyyy-MM-dd"
     
     static func convertStringToDate(_ stringDate: String) -> Date? {
-        dateFormatter.dateFormat = dateFormat
-        return dateFormatter.date(from:stringDate)
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .none
+        return dateFormatter.date(from: stringDate)
+    }
+    
+    static func convertStringToDate(_ stringDate: String, _ format: String) -> Date? {
+        dateFormatter.dateFormat = format
+        return dateFormatter.date(from: stringDate)
     }
     
     static func convertDateToString(_ date: Date?) -> String {
         if date == nil {
             return ""
         }
-        dateFormatter.dateFormat = dateFormat
-        return dateFormatter.string(from:date! as Date)
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .none
+        return dateFormatter.string(from: date!)
+    }
+    
+    static func convertDateToString(_ date: Date?, _ format: String) -> String {
+        if date == nil {
+            return ""
+        }
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: date!)
     }
 }

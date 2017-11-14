@@ -21,12 +21,12 @@ class Album: Equatable {
     public private(set) var endDate: Date?
     public private(set) var records: [Record]
     
-    init(_ title: String, _ cover: UIImage, _ description: String, _ startDate: Date, _ endDate: Date, _ color: UIColor) {
+    init(_ title: String, _ cover: UIImage, _ description: String, _ startDate: String, _ endDate: String, _ color: UIColor) {
         self.title = title
         self.cover = cover
         self.description = description
-        self.startDate = startDate
-        self.endDate = endDate
+        self.startDate = Util.convertStringToDate(startDate)
+        self.endDate = Util.convertStringToDate(endDate)
         self.color = color
         self.records = []
     }
@@ -58,11 +58,17 @@ class Album: Equatable {
     public func setStartDate(_ startDate: String) {
         self.startDate = Util.convertStringToDate(startDate)
     }
+    public func setStartDate(_ startDate: String, _ format: String) {
+        self.startDate = Util.convertStringToDate(startDate, format)
+    }
     public func setEndDate(_ endDate: Date) {
         self.endDate = endDate
     }
     public func setEndDate(_ endDate: String) {
         self.endDate = Util.convertStringToDate(endDate)
+    }
+    public func setEndDate(_ endDate: String, _ format: String) {
+        self.endDate = Util.convertStringToDate(endDate, format)
     }
     public func setRecords(_ records: [Record]) {
         self.records = records
@@ -76,5 +82,11 @@ class Album: Equatable {
             annotations.append(r.getAnnotation())
         }
         return annotations
+    }
+    public func getStartDate() -> String {
+        return Util.convertDateToString(startDate)
+    }
+    public func getEndDate() -> String {
+        return Util.convertDateToString(endDate)
     }
 }
