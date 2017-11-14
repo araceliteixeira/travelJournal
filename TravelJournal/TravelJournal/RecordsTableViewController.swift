@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RecordsTableViewController: UITableViewController {
+class RecordsTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     
     var data: [Record] = []
     var album: Album?
@@ -27,6 +27,11 @@ class RecordsTableViewController: UITableViewController {
         tableView.backgroundView = backgroundImage
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         
+        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(_:)))
+        longPressGesture.minimumPressDuration = 1.0 // 1 second press
+        longPressGesture.delegate = self
+        self.tableView.addGestureRecognizer(longPressGesture)
+        
         if let existAlbum = album {
             data = existAlbum.records
         }
@@ -34,6 +39,23 @@ class RecordsTableViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
+    }
+    
+    @objc func handleLongPress(_ gestureRecognizer: UIGestureRecognizer) {
+        let pressPoint = gestureRecognizer.location(in: self.tableView)
+        let indexPath = self.tableView.indexPathForRow(at: pressPoint)
+        
+        if indexPath != nil && gestureRecognizer.state == UIGestureRecognizerState.began {
+            print("Long press on row, at \(indexPath!.row)")
+            let alert = UIAlertController(title: "Alert", message: "Do you want to delete this record?", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
+                self.data.remove(at: indexPath!.row)
+                self.album?.setRecords(self.data)
+                self.tableView.reloadData()
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 
     // MARK: - Table view data source
@@ -107,6 +129,11 @@ class RecordsTableViewController: UITableViewController {
                 if let index = tableView.indexPathForSelectedRow?.row {
                     destination.record = data[index]
                     destination.color = data[index].color
+                } else {
+                    destination.color = album!.color
+                    if data.count > 0 {
+                        destination.previousCoordinate = data[data.count-1].getAnnotation().coordinate
+                    }
                 }
             }
         }
@@ -114,5 +141,21 @@ class RecordsTableViewController: UITableViewController {
 
     @IBAction func btnBack(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func unwindToRecordTable(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? RecordViewController {
+            if let record = sourceViewController.record {
+                if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                    data[selectedIndexPath.row] = record
+                    tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                } else {
+                    let newIndexPath = IndexPath(row: data.count, section: 0)
+                    data.append(record)
+                    tableView.insertRows(at: [newIndexPath], with: .automatic)
+                }
+                album?.setRecords(data)
+            }
+        }
     }
 }

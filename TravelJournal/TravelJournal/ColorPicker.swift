@@ -25,7 +25,6 @@ class HSBColorPicker : UIView {
         }
     }
     
-    
     private func initialize() {
         
         self.clipsToBounds = true

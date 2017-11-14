@@ -8,8 +8,10 @@
 
 import UIKit
 
-class AlbumsCollectionViewController: UICollectionViewController {
-
+class AlbumsCollectionViewController: UICollectionViewController, UIGestureRecognizerDelegate {
+    
+    @IBOutlet weak var btnBack: UIBarButtonItem!
+    
     var data: [Album] = []
     
     override func viewDidLoad() {
@@ -26,10 +28,31 @@ class AlbumsCollectionViewController: UICollectionViewController {
         backgroundImage.image = UIImage(named: "background")
         backgroundImage.contentMode =  UIViewContentMode.scaleAspectFill
         self.collectionView?.backgroundView = backgroundImage
+        
+        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(_:)))
+        longPressGesture.minimumPressDuration = 1.0 // 1 second press
+        longPressGesture.delegate = self
+        self.collectionView?.addGestureRecognizer(longPressGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         collectionView?.reloadData()
+    }
+    
+    @objc func handleLongPress(_ gestureRecognizer: UIGestureRecognizer) {
+        let pressPoint = gestureRecognizer.location(in: self.collectionView)
+        let indexPath = self.collectionView?.indexPathForItem(at: pressPoint)
+        
+        if indexPath != nil && gestureRecognizer.state == UIGestureRecognizerState.began {
+            print("Long press on row, at \(indexPath!.row)")
+            let alert = UIAlertController(title: "Alert", message: "Do you want to delete this album?", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
+                self.data.remove(at: indexPath!.row)
+                self.collectionView?.reloadData()
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
      // MARK: - Navigation
@@ -46,8 +69,14 @@ class AlbumsCollectionViewController: UICollectionViewController {
         }
      }
     
-    @IBAction func btnBack(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+    @IBAction func unwindToAlbumCollection(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? AlbumViewController {
+            if let album = sourceViewController.album {
+                if !data.contains(album) {
+                    data.append(album)
+                }
+            }
+        }
     }
     
     // MARK: UICollectionViewDataSource

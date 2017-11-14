@@ -13,7 +13,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapObj: MKMapView!
     @IBOutlet weak var btnView: UIButton!
-    @IBOutlet weak var btnWrite: UIButton!
     
     var data: [Album] = []
     var annotations: [CustomPointAnnotation] = []
@@ -29,7 +28,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         mapObj.delegate = self
         
         btnView!.titleEdgeInsets = UIEdgeInsets(top: 0,left: 10,bottom: 0,right: 0)
-        btnWrite.titleEdgeInsets = UIEdgeInsets(top: 0,left: 10,bottom: 0,right: 0)
         
         loadData()
     }
@@ -116,18 +114,34 @@ class ViewController: UIViewController, MKMapViewDelegate {
         }
         
         let identifier = "marker"
-        var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-            as? MKMarkerAnnotationView
-        if view == nil {
-            view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        if #available(iOS 11.0, *) {
+            var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                as? MKMarkerAnnotationView
+        
+            if view == nil {
+                view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            } else {
+                view?.annotation = annotation
+            }
+            if let customPointAnnotation = annotation as? CustomPointAnnotation {
+                view?.markerTintColor = customPointAnnotation.pointColor
+                view?.titleVisibility = .visible
+            }
+            return view
         } else {
-            view?.annotation = annotation
+            var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                as? MKPinAnnotationView
+            
+            if view == nil {
+                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            } else {
+                view?.annotation = annotation
+            }
+            if let customPointAnnotation = annotation as? CustomPointAnnotation {
+                view?.pinTintColor = customPointAnnotation.pointColor
+            }
+            return view
         }
-        if let customPointAnnotation = annotation as? CustomPointAnnotation {
-            view?.markerTintColor = customPointAnnotation.pointColor
-            view?.titleVisibility = .visible
-        }
-        return view
     }
 
      // MARK: - Navigation
@@ -140,5 +154,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
             }
         }
      }
+    
+    @IBAction func unwindToMainScreen(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? AlbumsCollectionViewController {
+            self.data = sourceViewController.data
+        }
+    }
 }
 

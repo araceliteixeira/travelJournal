@@ -8,7 +8,11 @@
 
 import UIKit
 
-class Album {
+class Album: Equatable {
+    static func ==(lhs: Album, rhs: Album) -> Bool {
+        return lhs.title == rhs.title && lhs.cover == rhs.cover && lhs.color == rhs.color && lhs.description == rhs.description && lhs.startDate == rhs.startDate && lhs.endDate == rhs.endDate && lhs.records == rhs.records
+    }
+    
     public private(set) var title: String
     public private(set) var cover: UIImage?
     public private(set) var color: UIColor

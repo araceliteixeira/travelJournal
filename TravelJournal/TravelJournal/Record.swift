@@ -9,16 +9,20 @@
 import UIKit
 import MapKit
 
-class Record {
+class Record: Equatable {
+    static func ==(lhs: Record, rhs: Record) -> Bool {
+        return lhs.title == rhs.title && lhs.date == rhs.date && lhs.color == rhs.color && lhs.text == rhs.text && lhs.photos == rhs.photos && lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+    }
+    
     public private(set) var title: String
     public private(set) var date: Date
     public private(set) var color: UIColor
     public private(set) var text: String
     public private(set) var photos: [UIImage]
-    public private(set) var latitude: Double
-    public private(set) var longitude: Double
+    public private(set) var latitude: Double?
+    public private(set) var longitude: Double?
     
-    init(_ title: String, _ date: Date, _ text: String, _ photos: [UIImage], _ latitude: Double, _ longitude: Double, _ color: UIColor) {
+    init(_ title: String, _ date: Date, _ text: String, _ photos: [UIImage], _ latitude: Double?, _ longitude: Double?, _ color: UIColor) {
         self.title = title
         self.date = date
         self.text = text
@@ -27,13 +31,18 @@ class Record {
         self.longitude = longitude
         self.color = color
     }
+    init(_ title: String, _ date: Date, _ text: String, _ photos: [UIImage], _ color: UIColor) {
+        self.title = title
+        self.date = date
+        self.text = text
+        self.photos = photos
+        self.color = color
+    }
     init(_ title: String, _ date: String, _ color: UIColor) {
         self.title = title
         self.date = Util.convertStringToDate(date)!
         text = ""
         photos = []
-        latitude = 0.0
-        longitude = 0.0
         self.color = color
     }
     
@@ -71,7 +80,9 @@ class Record {
         let annotation = CustomPointAnnotation(color)
         annotation.title = title
         annotation.subtitle = getDate()
-        annotation.coordinate = CLLocationCoordinate2DMake(latitude, longitude)
+        if latitude != nil && longitude != nil {
+            annotation.coordinate = CLLocationCoordinate2DMake(latitude!, longitude!)
+        }
         return annotation
     }
 }
